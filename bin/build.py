@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys, subprocess
-from os.path import join, dirname, getcwd
+from os.path import join, dirname
+from os import getcwd
 
 virtualenv = join('.', dirname(sys.argv[0]),
                   '..', 'virtualenv', 'virtualenv.py')
