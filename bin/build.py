@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 import sys, os, subprocess
 
+virtualenv = os.path.join('.', os.path.dirname(sys.argv[0]),
+                          '..', 'virtualenv', 'virtualenv.py')
+    
+
 def bootstrap(path, distribute=True):
-    virtualenv = os.path.dirname(sys.argv[0])
     if distribute:
-        return subprocess.call([os.path.join(virtualenv, '..',
-                                             'virtualenv', 'virtualenv.py'),
-                                '--distribute',
-                                path])
+        return subprocess.call([virtualenv, '--distribute', path])
     else:
-        return subprocess.call([os.path.join(virtualenv, '..',
-                                             'virtualenv', 'virtualenv.py'),
-                                '--setuptools',
-                                path])
+        return subprocess.call([virtualenv, '--setuptools', path])
+
+def make_relocatable(path):
+    return subprocess.call([virtualenv, '--relocatable', path])
+
 
 def build_from_requirements(path, pypi_server=None,
                             mirrors=True, requirements=None):
@@ -32,7 +33,8 @@ def build_from_requirements(path, pypi_server=None,
 
 def main(path):
     if bootstrap(path) == 0:
-        return build_from_requirements(path)
+        build_from_requirements(path)
+        make_relocatable(path)
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
