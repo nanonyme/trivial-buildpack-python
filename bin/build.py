@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-import sys, os, subprocess
-join = os.path.join
+import sys, subprocess
+from os.path import join, dirname, getcwd
 
-virtualenv = join('.', os.path.dirname(sys.argv[0]),
+virtualenv = join('.', dirname(sys.argv[0]),
                   '..', 'virtualenv', 'virtualenv.py')
     
 
@@ -20,7 +20,7 @@ def build_from_requirements(path, pypi_server=None,
                             mirrors=True, requirements=None):
     pip = join(path, 'bin', 'pip')
     if not requirements:
-        requirements = join(os.getcwd(), "requirements.txt")
+        requirements = join(getcwd(), "requirements.txt")
     if pypi_server and not mirrors:
         return subprocess.call([pip, 'install', '-i %s' % pypi_server,
                                 '-r', '%s' % requirements])
