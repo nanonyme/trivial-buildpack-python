@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import sys, os, subprocess
+join = os.path.join
 
-virtualenv = os.path.join('.', os.path.dirname(sys.argv[0]),
-                          '..', 'virtualenv', 'virtualenv.py')
+virtualenv = join('.', os.path.dirname(sys.argv[0]),
+                  '..', 'virtualenv', 'virtualenv.py')
     
 
 def bootstrap(path, distribute=True):
@@ -17,9 +18,9 @@ def make_relocatable(path):
 
 def build_from_requirements(path, pypi_server=None,
                             mirrors=True, requirements=None):
-    pip = os.path.join(path, 'bin', 'pip')
+    pip = join(path, 'bin', 'pip')
     if not requirements:
-        requirements = os.path.join(os.getcwd(), "requirements.txt")
+        requirements = join(os.getcwd(), "requirements.txt")
     if pypi_server and not mirrors:
         return subprocess.call([pip, 'install', '-i %s' % pypi_server,
                                 '-r', '%s' % requirements])
